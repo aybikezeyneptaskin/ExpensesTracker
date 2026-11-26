@@ -7,7 +7,11 @@ RUN mvn -q dependency:go-offline
 COPY src ./src
 RUN mvn -q -DskipTests package
 
-FROM eclipse-temurin:21-jre
+#FROM eclipse-temurin:21-jre
+#WORKDIR /app
+
+# non root user
+FROM gcr.io/distroless/java21-debian12:nonroot
 WORKDIR /app
 
 
