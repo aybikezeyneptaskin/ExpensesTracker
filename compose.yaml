@@ -4,9 +4,9 @@ services:
     container_name: expensetracker-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-expensetracker}
-      POSTGRES_USER: ${DB_USERNAME:-expensetracker}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-expensetracker}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -27,10 +27,12 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-expensetracker}
-      DB_USERNAME: ${DB_USERNAME:-expensetracker}
-      DB_PASSWORD: ${DB_PASSWORD:-expensetracker}
-      SERVER_PORT: ${SERVER_PORT:-8080}
+      DB_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SERVER_PORT: 8080
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -40,7 +42,7 @@ services:
       context: ./frontend
     container_name: expensetracker-frontend
     ports:
-      - "3000:8080"
+      - "3000:80"
     depends_on:
       - backend
     restart: unless-stopped
